@@ -1,0 +1,20 @@
+2021-03-26:
+setup new repo (advent2020) and .gitignore file
+- source: https://gist.github.com/rask004/4c322384aa6012d6c5a7178071d3c8fb
+
+Review: what is .idea?
+
+2021-03-19:
+reviewed day04.py
+CS61A website: discussion about expressions vs statements vs types
+to review:
+    ranges: inclusive and exclusive values (beginning and end?)
+
+
+Shortcuts:
+[shift][shift]
+[CMD][del]
+[CMD][click] on a function
+CMD + [, CMD + ] allows movement backward and forward from current click position (??)
+
+unix decal? core, shell, shell scripting
