@@ -1,49 +1,52 @@
-def readinput():
-    f = open("day01_input", "r")
-    return f.readlines()
+def read_input(filepath='day01_input'):
+    """Parse a text file to generate and return a list of ints.
+    >>> test_list = 'day01_test.txt'
+    >>> read_input(test_list)
+    [1721, 979, 366, 299, 675, 1456]
+    """
+    lst = []
+    with open(filepath, mode='r') as f:
+        for line in f.readlines():
+            lst.append(int(line.strip()))
+    return lst
+
+
+def sum_of_two(lst, target=2020):
+    """Find the 2 entries that sum to 2020; return the product of those 2 values.
+    >>> sum_of_two([1721, 979, 366, 299, 675, 1456])
+    514579
+    """
+    seen = set()
+    for num in lst:
+        exp = target - num
+        if exp in seen:
+            # print(f'Great! {exp} + {num} = {target}')
+            return exp * num
+        else:
+            seen.add(num)
+
+
+def sum_of_three(lst):
+    """Find the 3 entrees that sum to 2020; return the product of those 3 values.
+    >>> sum_of_three([1721, 979, 366, 299, 675, 1456])
+    241861950
+    """
+    for num in lst:
+        exp = 2020 - num
+        prod = sum_of_two([n for n in lst if n != num], exp)
+        if prod:
+            return prod * num
 
 
 def main_p1():
-    l = readinput()
-    numa, numb = 0, 0
-    for i in range(len(l)):
-        numa = int(l[i])
-        numb = 0
-        expnum = 2020 - numa
-        for j in range(len(l)):
-            if int(l[j]) == expnum and i != j:
-                numb = expnum
-                break
-        if numa + numb == 2020:
-            break
-    return numa * numb
-# next time, could try to RETURN instead of BREAK in the code above
+    """Solve part 1 of day 1."""
+    p1_list = read_input('day01_input')
+    return sum_of_two(p1_list)
 
 
 def main_p2():
-    l = readinput()
-    numa, numb, numc, i = 0, 0, 0, 0
-    while i < len(l) - 3:
-        numa = int(l[i])
-        j = i + 1
-        while j < len(l) - 2:
-            numb = int(l[j])
-            k = j + 1
-            while k < len(l) - 1:
-                numc = int(l[k])
-                if numa + numb + numc == 2020:
-                    return numa * numb * numc
-                k += 1
-            j += 1
-        i += 1
-    return
-
-
-"""
-# ints is a list
-for idx, val in enumerate(ints):
-    print(idx, val)
-"""
+    """Solve part 2 of day 1."""
+    return sum_of_three(read_input('day01_input'))
 
 
 if __name__ == "__main__":
