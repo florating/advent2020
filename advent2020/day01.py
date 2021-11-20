@@ -1,13 +1,16 @@
-def read_input(filepath='day01_input'):
+def read_input(filepath='day01_input', conversion=None):
     """Parse a text file to generate and return a list of ints.
     >>> test_list = 'day01_test.txt'
-    >>> read_input(test_list)
+    >>> read_input(test_list, conversion=int)
     [1721, 979, 366, 299, 675, 1456]
     """
     lst = []
     with open(filepath, mode='r') as f:
         for line in f.readlines():
-            lst.append(int(line.strip()))
+            if conversion:
+                lst.append(conversion(line.strip()))
+            else:
+                lst.append(line.strip())
     return lst
 
 
@@ -40,13 +43,13 @@ def sum_of_three(lst):
 
 def main_p1():
     """Solve part 1 of day 1."""
-    p1_list = read_input('day01_input')
+    p1_list = read_input('day01_input', conversion=int)
     return sum_of_two(p1_list)
 
 
 def main_p2():
     """Solve part 2 of day 1."""
-    return sum_of_three(read_input('day01_input'))
+    return sum_of_three(read_input('day01_input', conversion=int))
 
 
 if __name__ == "__main__":

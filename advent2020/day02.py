@@ -1,78 +1,67 @@
-# str is a string
-def isvalid(str):
-    # could return everything below in a separate function
+import re
 
-    thispass = str.split('-')
-    min = int(thispass[0])
-    thispass2 = thispass[1].split(' ')
-    max = int(thispass2[0])
-    letter = thispass2[1][0]
-    thispassword = thispass2[2]
-    # print("min is ", min, ". max is ", max, ". letter is ", letter, ". thispassword is ", thispassword, ".")
+from day01 import read_input
 
-    # check if password is valid
+
+def parse_line(line, is_p1=True):
+    """Parse line to be used as input for password validation.
+    >>> parse_line('2-9 c: ccccccccc')
+    {'password': 'ccccccccc', 'lo': 2, 'hi': 9, 'char': 'c'}
+    >>> parse_line('1-3 a: abcde', is_p1=False)
+    {'password': 'abcde', 'a': 0, 'b': 2, 'char': 'a'}
+    """
+    result = {}
+    freq, char, result['password'] = line.split()
+    a, b = map(int, freq.split('-'))
+    if is_p1:
+        result['lo'], result['hi'] = a, b
+    else:
+        result['a'], result['b'] = a - 1, b - 1  # switch to 0-index
+    result['char'] = char[:-1]
+    return result
+
+
+def is_valid(lo, hi, char, password):
+    """Return True if the password contains char at least lo times and at most hi times.
+    >>> params = parse_line('2-9 c: ccccccccc')
+    >>> is_valid(**params)
+    True
+    >>> params = parse_line('1-3 b: cdefg')
+    >>> is_valid(**params)
+    False
+    """
+    return lo <= len(re.findall(char, password)) <= hi
+
+
+def is_valid_p2(a, b, char, password):
+    """Return True if the password contains char in exactly one of these 1-indexed positions: a, b.
+    >>> params = parse_line('2-9 c: ccccccccc', is_p1=False)
+    >>> is_valid_p2(**params)
+    False
+    >>> params = parse_line('1-3 a: abcde', is_p1=False)
+    >>> is_valid_p2(**params)
+    True
+    """
+    return (password[a] == char) ^ (password[b] == char)
+
+
+def main(filepath, is_p1=True):
+    """Solve both parts 1 and 2 for day 2 (by changing is_p1 parameter).
+    >>> test = 'day02_test.txt'
+    >>> main(test)
+    2
+    >>> main(test, is_p1=False)
+    1
+    """
     count = 0
-    for i in thispassword:
-        if letter == i:
+    validate = is_valid if is_p1 else is_valid_p2
+    for line in read_input(filepath):
+        if validate(**parse_line(line, is_p1=is_p1)):
             count += 1
-        if count > max:
-            return False
-
-    if count >= min and count <= max:
-        return True
-
-
-def isvalid_p2(str):
-    # could return everything below in a separate function
-
-    thispass = str.split('-')
-    min = int(thispass[0])
-    thispass2 = thispass[1].split(' ')
-    max = int(thispass2[0])
-    letter = thispass2[1][0]
-    thispassword = thispass2[2]
-    # print("min is ", min, ". max is ", max, ". letter is ", letter, ". thispassword is ", thispassword, ".")
-
-    # check if password is valid
-    count = 0
-    letter_min = thispassword[min-1]
-    letter_max = thispassword[max-1]
-    if letter_min == letter:
-        count += 1
-    if letter_max == letter:
-        count += 1
-
-    if count == 1:
-        return True
-    return False
-
-
-def readinput():
-    f = open("day02_input", "r")
-    return f.readlines()
-
-
-def main():
-    allpass = readinput()
-    numvalid = 0
-    for i in allpass:
-        # print(i)
-        if isvalid(i):
-            numvalid += 1
-    return numvalid
-
-
-def main_p2():
-    allpass = readinput()
-    numvalid = 0
-    for i in allpass:
-        if isvalid_p2(i):
-            numvalid += 1
-    return numvalid
+    return count
 
 
 if __name__ == "__main__":
-    # print(main())
-    # s = '2-4 j: jgjjh'
-    # print(isvalid(s))
-    print(main_p2())
+    file = 'day02_input'
+    print(main(file, is_p1=True))
+    print(main(file, is_p1=False))  # for part 2
