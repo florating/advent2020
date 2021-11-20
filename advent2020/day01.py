@@ -1,5 +1,5 @@
 def read_input(filepath='day01_input', conversion=None):
-    """Parse a text file to generate and return a list of ints.
+    """Parse a text file to generate and return a list of strings by default; can pass in a type conversion function.
     >>> test_list = 'day01_test.txt'
     >>> read_input(test_list, conversion=int)
     [1721, 979, 366, 299, 675, 1456]
@@ -7,10 +7,8 @@ def read_input(filepath='day01_input', conversion=None):
     lst = []
     with open(filepath, mode='r') as f:
         for line in f.readlines():
-            if conversion:
-                lst.append(conversion(line.strip()))
-            else:
-                lst.append(line.strip())
+            value = conversion(line.strip()) if conversion else line.strip()
+            lst.append(value)
     return lst
 
 
@@ -23,7 +21,6 @@ def sum_of_two(lst, target=2020):
     for num in lst:
         exp = target - num
         if exp in seen:
-            # print(f'Great! {exp} + {num} = {target}')
             return exp * num
         else:
             seen.add(num)
@@ -41,17 +38,15 @@ def sum_of_three(lst):
             return prod * num
 
 
-def main_p1():
-    """Solve part 1 of day 1."""
-    p1_list = read_input('day01_input', conversion=int)
-    return sum_of_two(p1_list)
+def main_p1(file_list):
+    return sum_of_two(file_list)
 
 
-def main_p2():
-    """Solve part 2 of day 1."""
-    return sum_of_three(read_input('day01_input', conversion=int))
+def main_p2(file_list):
+    return sum_of_three(file_list)
 
 
 if __name__ == "__main__":
-    print(main_p1())
-    print(main_p2())
+    file = read_input('day01_input', conversion=int)
+    print(main_p1(file))
+    print(main_p2(file))
