@@ -1,12 +1,7 @@
 """Day 1: submarines, measurements, and sliding windows"""
 
 
-def read_input(file, convert_to_int=False):
-    text = []
-    with open(file, 'r') as f:
-        for line in f.readlines():
-            text.append(int(line)) if convert_to_int else text.append(line)
-    return text
+from utils import read_input
 
 
 def count_increases(data):

@@ -1,7 +1,7 @@
 """Day 2: Dive!"""
 
 
-from day01 import read_input
+from utils import read_input
 
 
 def parse_dirs(dirs):
