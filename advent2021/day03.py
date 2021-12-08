@@ -1,7 +1,5 @@
 """Day 3: Binary Diagnostic"""
 
-import statistics
-from statistics import mode
 from pprint import pprint
 from utils import read_input
 
@@ -11,9 +9,8 @@ from utils import read_input
 
 def calculate_gamma(nums):
     gamma = ''
-    # print(f'nums is type {type(nums)} and is {nums}')
     for bits in nums.values():
-        gamma = gamma + mode(bits)
+        gamma = gamma + count_mode(bits, is_common=True)
     return gamma
 
 
@@ -48,13 +45,17 @@ def convert_from_binary(binary_val):
 
 
 def count_mode(inputs, is_common=True):
+    """Return the mode from inputs (list of '0' and '1').
+    If there are equal counts of '0' and '1', then return based on is_common's value.
+    """
     seen = {}
     mode = most = None
+
     for num in inputs:
         if num not in seen:
             seen[num] = 0
         seen[num] += 1
-    print(seen)
+
     for key, val in seen.items():
         if val == len(inputs) / 2:
             return '1' if is_common else '0'
@@ -62,11 +63,10 @@ def count_mode(inputs, is_common=True):
             mode, most = key, val
         if most and most < val:
             mode, most = key, val
+
     if is_common:
         return mode
     else:
-        print(f'From count_mode where is_common is {is_common}...')
-        print(seen)
         del seen[mode]
         return list(seen.keys())[0]
 
@@ -79,24 +79,20 @@ def parse_input(file_input, is_part1=True, is_oxygen_rating=True):
     size = len(file_input[0])
     nums_by_pos = {}
     for i in range(size):
-        nums_by_pos[i] = []
-        current = []
+        nums_by_pos[i], current = [], []
+
         for bin_num in inputs:
-            # print(f'num is {num} for i = {i}')
             nums_by_pos[i].append(bin_num[i])
+
         if not is_part1:
-            print(f'About to start count_mode for nums_by_pos[i] where is_common = {is_oxygen_rating}')
-            print(f'nums_by_pos[i] = {nums_by_pos[i]}')
             target = count_mode(nums_by_pos[i], is_common=is_oxygen_rating)
-            print(f'target = {target}')
             for j, bit in enumerate(nums_by_pos[i]):
                 if bit == target:
                     current.append(inputs[j])
+            if len(current) == 1:
+                return current[0]
             inputs = current
-            print(f'For position i = {i} and target = {target}, inputs = ')
             pprint(inputs)
-            if len(inputs) == 1:
-                return inputs[0]
     else:
         print("Went through the entire input list.")
         return nums_by_pos
