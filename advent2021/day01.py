@@ -36,7 +36,7 @@ def sum_measures(nums):
 
 
 if __name__ == '__main__':
-    file = 'input01.txt'
+    file = 'inputs/input01.txt'
     lst = read_input(file, convert_to_int=True)
     print(f'The answer to part 1 is: {count_increases(lst)}')
 

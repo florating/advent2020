@@ -22,7 +22,7 @@ def parse_dirs(dirs):
 
 if __name__ == '__main__':
     # file = 'test02.txt'
-    file = 'input02.txt'
+    file = 'inputs/input02.txt'
     lst = read_input(file)
     (horiz, depth) = parse_dirs(lst)
     print(horiz * depth)

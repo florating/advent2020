@@ -100,7 +100,7 @@ def parse_input(file_input, is_part1=True, is_oxygen_rating=True):
 
 if __name__ == '__main__':
     # file = 'test03.txt'
-    file = 'input03.txt'
+    file = 'inputs/input03.txt'
     test = read_input(file, convert_to_int=False)
 
     values = parse_input(test, is_part1=True, is_oxygen_rating=False)

@@ -78,7 +78,7 @@ def decode_entry(entry):
 
 
 if __name__ == '__main__':
-    file = 'test08.txt'
+    file = 'test_inputs/test08.txt'
     # file = 'input08.txt'
     output = get_output_values(file)
     print(output)

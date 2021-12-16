@@ -69,7 +69,7 @@ def count_overlap(matrix):
 
 
 if __name__ == '__main__':
-    file = 'test05.txt'
+    file = 'test_inputs/test05.txt'
     # file = 'input05.txt'
     lines = read_input(file)
     coords, matrix = parse_input(lines)

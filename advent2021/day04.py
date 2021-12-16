@@ -111,5 +111,5 @@ def play_bingo(file, is_part2=False):
 
 if __name__ == '__main__':
     # file = 'test04.txt'
-    file = 'input04.txt'
+    file = 'inputs/input04.txt'
     print(play_bingo(file, is_part2=True))
