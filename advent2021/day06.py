@@ -35,9 +35,9 @@ if __name__ == '__main__':
     # file = 'test_inputs/test06.txt'
     file = 'inputs/input06.txt'
 
-    data = [int(x) for x in open(file, 'r').read().strip().split(',')]
+    data = []
+    with open(file, 'r') as f:
+        data = [int(x) for x in f.read().strip().split(',')]
 
     days = 256
-    # print(process_days(list([1]), days))
-
     print(count_fish(data, days))

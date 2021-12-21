@@ -14,7 +14,7 @@ def get_input(file):
 
 
 def find_nearby_octos(coords, num_rows=10, num_cols=10):
-    """Given coords (x, y), return a list/set of valid coords.
+    """Given coords (x, y), return a list/set of valid coords including diagonals.
     >>> find_nearby_octos((1,1), 3, 3)
     [(0, 0), (0, 1), (0, 2), (1, 0), (1, 2), (2, 0), (2, 1), (2, 2)]
     """
@@ -35,9 +35,8 @@ def find_nearby_octos(coords, num_rows=10, num_cols=10):
 
 
 def perform_actions(grid):
-    """Count # of flashes for a single step that involves: increment energy, flash, and reset energy levels."""
+    """Return the # of flashes for a single step that involves: increment energy, flash, and reset energy levels."""
     flashed = set()
-
     increment_grid(grid)
     flash(grid, flashed)
     count = len(flashed)
@@ -47,13 +46,14 @@ def perform_actions(grid):
 
 
 def increment_grid(grid):
+    """Increment all energy levels."""
     for y, row in enumerate(grid):
         for x, value in enumerate(row):
             grid[y][x] += 1
 
 
 def flash(grid, flashed):
-    """Return # of flashes."""
+    """Return set of all coordinates that flashed for this step."""
     to_flash = []
     for y, row in enumerate(grid):
         to_flash.extend([
@@ -80,6 +80,7 @@ def flash(grid, flashed):
 
 
 def increment(grid, coords, values_dict):
+    """Increment energy levels (to use as helper function for the flash function above; changes made in-place)."""
     for coord in coords:
         x, y = coord
         # print(f'x = {x} and y = {y}')
@@ -88,26 +89,26 @@ def increment(grid, coords, values_dict):
 
 
 def reset_levels(grid, flashed):
+    """Reset energy levels for all octopi in the grid that have flashed (changes made in-place)."""
     for coord in flashed:
         x, y = coord
         # print(f'x = {x} and y = {y}')
         grid[y][x] = 0
 
 
-def solve(grid, num_steps):
-    count = 0
-    for i in range(num_steps):
-        count += perform_actions(grid)
-    return count
-
-
-def solve_p2(grid):
-    steps = 0
-    while True:
-        count = perform_actions(grid)
-        steps += 1
-        if count == 100:
-            return steps
+def solve(grid, num_steps=None):
+    """Return total # of flashes (part 1) or step after which all flashes are synchronized (part 2)."""
+    steps = count = 0
+    if not num_steps:
+        while True:
+            count = perform_actions(grid)
+            steps += 1
+            if count == 100:
+                return steps
+    else:
+        for i in range(num_steps):
+            count += perform_actions(grid)
+        return count
 
 
 if __name__ == '__main__':
@@ -117,11 +118,12 @@ if __name__ == '__main__':
     grid = get_input(file)
     pprint(grid)
 
-    ### for step 1:
+    # for part 1:
     # steps = 100
     # count = solve(grid, steps)
     # print(f'After {steps} steps, # of flashes = {count}')
     # pprint(grid)
 
-    step_all_flashed = solve_p2(grid)
+    # for part 2:
+    step_all_flashed = solve(grid)
     print(f'all flashed at step = {step_all_flashed}')
