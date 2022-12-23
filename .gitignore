@@ -3,6 +3,7 @@
 .DS_Store
 .idea/
 ._*
+__pycache__
 
 # virtualenv #
 ######################
