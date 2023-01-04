@@ -3,17 +3,6 @@
 from collections import deque
 
 
-class Monkey:
-    def __init__(self):
-        self.items = []
-        self.test_val = None
-
-    def parse(self):
-        pass
-
-    def test(self, val):
-        return True if val % self.test_val == 0 else False
-
 """
 Use a 2D array to get the structure.
 
@@ -43,7 +32,7 @@ def main(text):
             val = items.popleft()
 
             # investigate
-            operation = text['operations']
+            operation = text['operations'].split('=')[-1].strip()
 
             # relief
             val = round(val / 3)
@@ -53,8 +42,6 @@ def main(text):
             next_monkey = test_criteria[1] if val % test_criteria[0] == 0 else test_criteria[2]
             text['monkeys'][next_monkey].append(val)
             # if list is empty, the turn ends
-
-    pass
 
 
 def parse(text):
